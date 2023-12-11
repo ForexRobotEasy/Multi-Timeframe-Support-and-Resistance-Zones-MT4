@@ -1,0 +1,63 @@
+
+// Program: Multi Timeframe Support and Resistance Zones MT4
+// Developer: Forex Robot Easy Team
+// Developer's Site: forexroboteasy.com
+
+#property strict
+
+// Define input parameters
+input int timeframe1 = PERIOD_M15;
+input int timeframe2 = PERIOD_H1;
+input int timeframe3 = PERIOD_H4;
+
+// Define global variables
+double supportZone1;
+double resistanceZone1;
+double supportZone2;
+double resistanceZone2;
+double supportZone3;
+double resistanceZone3;
+
+// Calculate support and resistance zones
+void CalculateZones() {
+    // Calculate zones for timeframe 1
+    supportZone1 = Low[timeframe1];
+    resistanceZone1 = High[timeframe1];
+
+    // Calculate zones for timeframe 2
+    supportZone2 = Low[timeframe2];
+    resistanceZone2 = High[timeframe2];
+
+    // Calculate zones for timeframe 3
+    supportZone3 = Low[timeframe3];
+    resistanceZone3 = High[timeframe3];
+}
+
+// Check if price interacts with support or resistance zones
+bool InteractsWithZone(double price, double supportZone, double resistanceZone) {
+    return (price >= supportZone && price <= resistanceZone);
+}
+
+// Generate alert when price interacts with support or resistance zones
+void GenerateAlert() {
+    if (InteractsWithZone(Close[0], supportZone1, resistanceZone1) ||
+        InteractsWithZone(Close[0], supportZone2, resistanceZone2) ||
+        InteractsWithZone(Close[0], supportZone3, resistanceZone3)) {
+        Alert('Price interacts with support or resistance zone!');
+    }
+}
+
+// Entry point of the program
+void OnStart() {
+    // Calculate support and resistance zones
+    CalculateZones();
+
+    // Generate alert when price interacts with support or resistance zones
+    GenerateAlert();
+
+    // Print support and resistance zones to the chart
+    Comment('Support and Resistance Zones:');
+    Comment('Timeframe 1 - Support: ', supportZone1, ', Resistance: ', resistanceZone1);
+    Comment('Timeframe 2 - Support: ', supportZone2, ', Resistance: ', resistanceZone2);
+    Comment('Timeframe 3 - Support: ', supportZone3, ', Resistance: ', resistanceZone3);
+}
